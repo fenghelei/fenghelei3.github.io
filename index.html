@@ -2,10 +2,206 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <title>我的网站</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>我的资料库</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Microsoft YaHei", sans-serif;
+        }
+
+        :root {
+            --bg: #f5f7fa;
+            --card: #ffffff;
+            --text: #333;
+            --border: #eee;
+            --theme: #409eff;
+        }
+
+        .dark {
+            --bg: #1a1a1a;
+            --card: #2a2a2a;
+            --text: #e0e0e0;
+            --border: #444;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            transition: 0.3s;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .title {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--theme);
+        }
+
+        .theme-btn {
+            padding: 8px 12px;
+            border: none;
+            border-radius: 6px;
+            background: var(--theme);
+            color: white;
+            cursor: pointer;
+        }
+
+        .search-box {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            background: var(--card);
+            color: var(--text);
+            font-size: 16px;
+            margin-bottom: 20px;
+            outline: none;
+        }
+
+        .category {
+            margin-bottom: 25px;
+        }
+
+        .cat-title {
+            font-size: 18px;
+            margin-bottom: 10px;
+            padding-left: 10px;
+            border-left: 4px solid var(--theme);
+        }
+
+        .card-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 15px;
+        }
+
+        .card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 15px;
+            transition: 0.2s;
+        }
+
+        .card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .card h3 {
+            font-size: 16px;
+            margin-bottom: 8px;
+            color: var(--theme);
+        }
+
+        .card p {
+            font-size: 14px;
+            color: var(--text);
+            opacity: 0.85;
+            margin-bottom: 10px;
+            line-height: 1.5;
+        }
+
+        .card a {
+            font-size: 14px;
+            color: var(--theme);
+            text-decoration: none;
+        }
+
+        .card a:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
-    <h1>我的 GitHub Pages 网站</h1>
-    <p>成功从 0 搭建啦！</p>
+    <div class="container">
+        <header>
+            <div class="title">📚 我的个人资料库</div>
+            <button class="theme-btn" id="themeBtn">暗黑模式</button>
+        </header>
+
+        <input type="text" class="search-box" id="search" placeholder="🔍 搜索资料名称/内容...">
+
+        <!-- 学习资料 -->
+        <div class="category">
+            <div class="cat-title">📘 学习资料</div>
+            <div class="card-list">
+                <div class="card">
+                    <h3>HTML 基础教程</h3>
+                    <p>网页结构基础，标签、属性、表单、语义化等完整笔记</p>
+                    <a href="#">查看详情</a>
+                </div>
+                <div class="card">
+                    <h3>JavaScript 入门</h3>
+                    <p>变量、函数、DOM操作、异步、ES6+ 核心知识点整理</p>
+                    <a href="#">查看详情</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- 工具资源 -->
+        <div class="category">
+            <div class="cat-title">🔧 工具资源</div>
+            <div class="card-list">
+                <div class="card">
+                    <h3>常用图标网站</h3>
+                    <p>免费矢量图标、SVG、PNG 素材网站合集</p>
+                    <a href="#">https://www.iconfont.cn/</a>
+                </div>
+                <div class="card">
+                    <h3>在线工具大全</h3>
+                    <p>JSON格式化、图片压缩、编码转换、时间戳转换</p>
+                    <a href="#">收藏链接</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- 工作笔记 -->
+        <div class="category">
+            <div class="cat-title">📝 工作笔记</div>
+            <div class="card-list">
+                <div class="card">
+                    <h3>项目部署流程</h3>
+                    <p>GitHub Pages 部署、域名绑定、HTTPS 配置步骤</p>
+                    <a href="#">打开笔记</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 暗黑模式切换
+        const themeBtn = document.getElementById('themeBtn');
+        themeBtn.addEventListener('click', () => {
+            document.body.classList.toggle('dark');
+            themeBtn.textContent = document.body.classList.contains('dark') ? '浅色模式' : '暗黑模式';
+        });
+
+        // 搜索功能
+        const search = document.getElementById('search');
+        const cards = document.querySelectorAll('.card');
+        search.addEventListener('input', (e) => {
+            const key = e.target.value.toLowerCase();
+            cards.forEach(card => {
+                const text = card.textContent.toLowerCase();
+                card.style.display = text.includes(key) ? 'block' : 'none';
+            });
+        });
+    </script>
 </body>
 </html>
