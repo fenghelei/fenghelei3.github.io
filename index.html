@@ -1,363 +1,111 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>私人资料库</title>
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: "Microsoft YaHei", sans-serif;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>fhl资料导航</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:"Microsoft YaHei",sans-serif}
+body{background:#f5f7fa;padding:20px}
 
-    :root {
-      --bg: #f5f7fa;
-      --card: #fff;
-      --text: #333;
-      --border: #eee;
-      --theme: #409eff;
-    }
-    .dark {
-      --bg: #1a1a1a;
-      --card: #2c2c2c;
-      --text: #e0e0e0;
-      --border: #444;
-    }
+/* 登录界面 */
+#login{max-width:400px;margin:100px auto;text-align:center}
+#login h2{margin-bottom:20px;color:#409eff}
+#login input{width:100%;padding:12px 15px;border-radius:8px;border:1px solid #ddd;font-size:16px;margin-bottom:15px;outline:none}
+#login button{width:100%;padding:12px;background:#409eff;color:#fff;border:none;border-radius:8px;font-size:16px;cursor:pointer}
+.tip{color:red;margin-top:10px;display:none}
 
-    body {
-      background: var(--bg);
-      color: var(--text);
-      transition: 0.3s;
-      padding: 20px;
-    }
+/* 主内容 */
+#content{display:none;max-width:1000px;margin:0 auto}
+.title{font-size:26px;margin-bottom:30px;text-align:center;color:#409eff}
 
-    /* 登录页 */
-    .login {
-      max-width: 400px;
-      margin: 100px auto;
-      text-align: center;
-    }
-    .login h2 {
-      color: var(--theme);
-      margin-bottom: 10px;
-    }
-    .login p {
-      opacity: 0.7;
-      margin-bottom: 25px;
-    }
-    .login input {
-      width: 100%;
-      padding: 12px 15px;
-      border-radius: 8px;
-      border: 1px solid var(--border);
-      background: var(--card);
-      color: var(--text);
-      font-size: 16px;
-      margin-bottom: 15px;
-      outline: none;
-    }
-    .login button {
-      width: 100%;
-      padding: 12px;
-      background: var(--theme);
-      color: #fff;
-      border: none;
-      border-radius: 8px;
-      font-size: 16px;
-      cursor: pointer;
-    }
-    .tip {
-      color: #f56c6c;
-      font-size: 14px;
-      margin-top: 10px;
-      display: none;
-    }
-
-    /* 主页 */
-    .container {
-      max-width: 1000px;
-      margin: 0 auto;
-      display: none;
-    }
-    .header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 20px;
-    }
-    .header h1 {
-      font-size: 24px;
-      color: var(--theme);
-    }
-    .darkBtn {
-      padding: 8px 14px;
-      border-radius: 6px;
-      background: var(--theme);
-      color: #fff;
-      border: none;
-      cursor: pointer;
-    }
-    .search {
-      width: 100%;
-      padding: 12px 15px;
-      border-radius: 8px;
-      border: 1px solid var(--border);
-      background: var(--card);
-      color: var(--text);
-      font-size: 16px;
-      margin-bottom: 25px;
-      outline: none;
-    }
-
-    .section {
-      margin-bottom: 35px;
-    }
-    .section h3 {
-      font-size: 18px;
-      margin-bottom: 12px;
-      padding-left: 10px;
-      border-left: 4px solid var(--theme);
-    }
-    .card-list {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 15px;
-    }
-    .card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 16px;
-      transition: 0.2s;
-    }
-    .card:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    }
-    .card h4 {
-      font-size: 16px;
-      margin-bottom: 8px;
-      color: var(--theme);
-    }
-    .card p {
-      font-size: 14px;
-      line-height: 1.5;
-      opacity: 0.9;
-      margin-bottom: 10px;
-    }
-    .card a {
-      font-size: 14px;
-      color: var(--theme);
-      text-decoration: none;
-    }
-    .card a:hover {
-      text-decoration: underline;
-    }
-  </style>
+/* 可点击模块卡片 */
+.card-box{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;margin-bottom:40px}
+.card{background:#fff;border-radius:12px;padding:20px;box-shadow:0 2px 8px rgba(0,0,0,0.05);cursor:pointer;text-align:center;transition:.2s}
+.card:hover{transform:translateY(-3px);box-shadow:0 5px 15px rgba(0,0,0,0.1)}
+.card h3{font-size:18px;margin-bottom:10px;color:#409eff}
+.card p{font-size:14px;color:#666;line-height:1.5}
+</style>
 </head>
+
 <body>
 
-<!-- 只在这里输一次密码 -->
-<div class="login" id="loginBox">
-  <h2>🔒 私人资料库</h2>
-  <p>输入密码即可查看全部内容</p>
+<!-- 密码页面 -->
+<div id="login">
+  <h2>🔒 进入私人资料库</h2>
   <input type="password" id="pwd" placeholder="请输入密码">
-  <button id="loginBtn">进入资料库</button>
-  <div class="tip" id="errTip">密码错误</div>
+  <button onclick="check()">进入</button>
+  <div class="tip" id="err">密码错误</div>
 </div>
 
-<!-- 主页 - 解锁后显示 -->
-<div class="container" id="mainBox">
-  <div class="header">
-    <h1>📚 我的全能资料库</h1>
-    <button class="darkBtn" id="darkBtn">暗黑模式</button>
-  </div>
+<!-- 可点击模块主页 -->
+<div id="content">
+  <div class="title">📚 我的资料导航</div>
 
-  <input class="search" id="search" placeholder="🔍 搜索资料、链接、笔记...">
-
-  <!-- 学习资料 -->
-  <div class="section">
-    <h3>📘 学习资料</h3>
-    <div class="card-list">
-      <div class="card">
-        <h4>HTML 笔记</h4>
-        <p>常用标签、表单、布局、语义化</p>
-        <a href="#" target="_blank">查看</a>
-      </div>
-      <div class="card">
-        <h4>CSS 布局</h4>
-        <p>Flex、Grid、响应式、居中技巧</p>
-        <a href="#" target="_blank">查看</a>
-      </div>
-      <div class="card">
-        <h4>JavaScript 基础</h4>
-        <p>变量、函数、数组、DOM、异步</p>
-        <a href="#" target="_blank">查看</a>
-      </div>
+  <div class="card-box">
+    <div class="card" onclick="window.open('https://www.bilibili.com/', '_blank')">
+      <h3>🎬 B站学习</h3>
+      <p>教程、课程、学习视频合集</p>
     </div>
-  </div>
 
-  <!-- 工具资源 -->
-  <div class="section">
-    <h3>🔧 工具资源</h3>
-    <div class="card-list">
-      <div class="card">
-        <h4>图标网站</h4>
-        <p>Iconfont、SVG、免费图标素材</p>
-        <a href="https://www.iconfont.cn/" target="_blank">打开</a>
-      </div>
-      <div class="card">
-        <h4>在线工具</h4>
-        <p>JSON、压缩、编码、正则、时间戳</p>
-        <a href="#" target="_blank">打开</a>
-      </div>
-      <div class="card">
-        <h4>设计工具</h4>
-        <p>Figma、Canva、稿定、美图</p>
-        <a href="#" target="_blank">打开</a>
-      </div>
+    <div class="card" onclick="window.open('https://github.com/', '_blank')">
+      <h3>💻 GitHub</h3>
+      <p>代码仓库、开源项目、笔记文档</p>
     </div>
-  </div>
 
-  <!-- 文档模板 -->
-  <div class="section">
-    <h3>📁 文档模板</h3>
-    <div class="card-list">
-      <div class="card">
-        <h4>工作总结</h4>
-        <p>周/月/年度总结通用模板</p>
-        <a href="#" target="_blank">使用</a>
-      </div>
-      <div class="card">
-        <h4>计划书</h4>
-        <p>学习计划、项目计划模板</p>
-        <a href="#" target="_blank">查看</a>
-      </div>
-      <div class="card">
-        <h4>简历模板</h4>
-        <p>简洁通用版、技术岗位版</p>
-        <a href="#" target="_blank">查看</a>
-      </div>
+    <div class="card" onclick="window.open('https://www.iconfont.cn/', '_blank')">
+      <h3>🎨 图标素材</h3>
+      <p>免费SVG、PNG图标素材网站</p>
     </div>
-  </div>
 
-  <!-- 代码片段 -->
-  <div class="section">
-    <h3>💻 代码片段</h3>
-    <div class="card-list">
-      <div class="card">
-        <h4>JS 工具函数</h4>
-        <p>防抖、节流、拷贝、时间格式化</p>
-        <a href="#" target="_blank">复制</a>
-      </div>
-      <div class="card">
-        <h4>Python 脚本</h4>
-        <p>文件处理、爬虫、数据处理</p>
-        <a href="#" target="_blank">查看</a>
-      </div>
-      <div class="card">
-        <h4>Git 命令</h4>
-        <p>提交、分支、回滚、同步</p>
-        <a href="#" target="_blank">查看</a>
-      </div>
+    <div class="card" onclick="window.open('https://tool.lu/', '_blank')">
+      <h3>🔧 在线工具</h3>
+      <p>JSON、格式化、压缩、转换工具</p>
     </div>
-  </div>
 
-  <!-- 电子书 -->
-  <div class="section">
-    <h3>📚 电子书资料</h3>
-    <div class="card-list">
-      <div class="card">
-        <h4>前端入门电子书</h4>
-        <p>HTML+CSS+JS 入门到实战</p>
-        <a href="#" target="_blank">查看</a>
-      </div>
-      <div class="card">
-        <h4>编程学习路线</h4>
-        <p>前端、Python、Java 路线图</p>
-        <a href="#" target="_blank">查看</a>
-      </div>
+    <div class="card" onclick="window.open('https://www.runoob.com/', '_blank')">
+      <h3>📘 编程教程</h3>
+      <p>HTML、CSS、JS、Python学习</p>
     </div>
-  </div>
 
-  <!-- 常用链接 -->
-  <div class="section">
-    <h3>🔗 常用网站</h3>
-    <div class="card-list">
-      <div class="card">
-        <h4>GitHub</h4>
-        <p>代码仓库、开源项目</p>
-        <a href="https://github.com" target="_blank">打开</a>
-      </div>
-      <div class="card">
-        <h4>B站</h4>
-        <p>学习视频、教程课程</p>
-        <a href="https://www.bilibili.com" target="_blank">打开</a>
-      </div>
+    <div class="card" onclick="window.open('https://www.zhihu.com/', '_blank')">
+      <h3>📖 知乎阅读</h3>
+      <p>学习经验、问答、干货文章</p>
     </div>
-  </div>
 
-  <!-- 备忘录 -->
-  <div class="section">
-    <h3>📌 备忘录</h3>
-    <div class="card-list">
-      <div class="card">
-        <h4>待办事项</h4>
-        <p>整理笔记、更新网站、学习</p>
-        <a href="#" target="_blank">编辑</a>
-      </div>
-      <div class="card">
-        <h4>临时笔记</h4>
-        <p>随手记录想法、链接</p>
-        <a href="#" target="_blank">查看</a>
-      </div>
+    <div class="card" onclick="window.open('https://www.douban.com/', '_blank')">
+      <h3>🎬 电影收藏</h3>
+      <p>经典电影、书单、影单记录</p>
+    </div>
+
+    <div class="card" onclick="window.open('https://www.baidu.com/', '_blank')">
+      <h3>🔍 快速搜索</h3>
+      <p>资料、文档、知识快速查找</p>
+    </div>
+
+    <div class="card" onclick="alert('这里可以放你的本地笔记链接')">
+      <h3>📝 个人笔记</h3>
+      <p>学习笔记、工作总结、备忘录</p>
     </div>
   </div>
 </div>
 
 <script>
-  // ===== 改密码只改这里 =====
-  const PASSWORD = "123456";
-  // =========================
+const PASSWORD = "123456";
 
-  const loginBox = document.getElementById("loginBox");
-  const mainBox = document.getElementById("mainBox");
-  const pwd = document.getElementById("pwd");
-  const loginBtn = document.getElementById("loginBtn");
-  const errTip = document.getElementById("errTip");
-  const darkBtn = document.getElementById("darkBtn");
-  const search = document.getElementById("search");
-  const cards = document.querySelectorAll(".card");
+function check() {
+  const val = document.getElementById("pwd").value;
+  if (val === PASSWORD) {
+    document.getElementById("login").style.display = "none";
+    document.getElementById("content").style.display = "block";
+  } else {
+    document.getElementById("err").style.display = "block";
+  }
+}
 
-  // 登录一次就解锁全部
-  loginBtn.onclick = function () {
-    if (pwd.value === PASSWORD) {
-      loginBox.style.display = "none";
-      mainBox.style.display = "block";
-    } else {
-      errTip.style.display = "block";
-      pwd.value = "";
-    }
-  };
-  pwd.addEventListener("keydown", e => {
-    if (e.key === "Enter") loginBtn.click();
-  });
-
-  // 暗黑模式
-  darkBtn.onclick = function () {
-    document.body.classList.toggle("dark");
-    darkBtn.textContent = document.body.classList.contains("dark") ? "浅色模式" : "暗黑模式";
-  };
-
-  // 搜索
-  search.addEventListener("input", function () {
-    const key = search.value.toLowerCase();
-    cards.forEach(card => {
-      card.style.display = card.textContent.toLowerCase().includes(key) ? "block" : "none";
-    });
-  });
+document.getElementById("pwd").addEventListener("keydown", function(e){
+  if(e.key === "Enter") check();
+});
 </script>
 </body>
 </html>
