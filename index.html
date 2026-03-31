@@ -1,230 +1,363 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>我的资料库</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: "Microsoft YaHei", sans-serif;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>私人资料库</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Microsoft YaHei", sans-serif;
+    }
 
-        :root {
-            --bg: #f5f7fa;
-            --card: #ffffff;
-            --text: #333;
-            --border: #eee;
-            --theme: #409eff;
-        }
+    :root {
+      --bg: #f5f7fa;
+      --card: #fff;
+      --text: #333;
+      --border: #eee;
+      --theme: #409eff;
+    }
+    .dark {
+      --bg: #1a1a1a;
+      --card: #2c2c2c;
+      --text: #e0e0e0;
+      --border: #444;
+    }
 
-        .dark {
-            --bg: #1a1a1a;
-            --card: #2a2a2a;
-            --text: #e0e0e0;
-            --border: #444;
-        }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      transition: 0.3s;
+      padding: 20px;
+    }
 
-        body {
-            background: var(--bg);
-            color: var(--text);
-            transition: 0.3s;
-            padding: 20px;
-        }
+    /* 登录页 */
+    .login {
+      max-width: 400px;
+      margin: 100px auto;
+      text-align: center;
+    }
+    .login h2 {
+      color: var(--theme);
+      margin-bottom: 10px;
+    }
+    .login p {
+      opacity: 0.7;
+      margin-bottom: 25px;
+    }
+    .login input {
+      width: 100%;
+      padding: 12px 15px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: var(--card);
+      color: var(--text);
+      font-size: 16px;
+      margin-bottom: 15px;
+      outline: none;
+    }
+    .login button {
+      width: 100%;
+      padding: 12px;
+      background: var(--theme);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    .tip {
+      color: #f56c6c;
+      font-size: 14px;
+      margin-top: 10px;
+      display: none;
+    }
 
-        .container {
-            max-width: 1000px;
-            margin: 0 auto;
-        }
+    /* 主页 */
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      display: none;
+    }
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    .header h1 {
+      font-size: 24px;
+      color: var(--theme);
+    }
+    .darkBtn {
+      padding: 8px 14px;
+      border-radius: 6px;
+      background: var(--theme);
+      color: #fff;
+      border: none;
+      cursor: pointer;
+    }
+    .search {
+      width: 100%;
+      padding: 12px 15px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: var(--card);
+      color: var(--text);
+      font-size: 16px;
+      margin-bottom: 25px;
+      outline: none;
+    }
 
-        header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-
-        .title {
-            font-size: 24px;
-            font-weight: bold;
-            color: var(--theme);
-        }
-
-        .theme-btn {
-            padding: 8px 12px;
-            border: none;
-            border-radius: 6px;
-            background: var(--theme);
-            color: white;
-            cursor: pointer;
-        }
-
-        .search-box {
-            width: 100%;
-            padding: 12px 15px;
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            background: var(--card);
-            color: var(--text);
-            font-size: 16px;
-            margin-bottom: 20px;
-            outline: none;
-        }
-
-        .category {
-            margin-bottom: 25px;
-        }
-
-        .cat-title {
-            font-size: 18px;
-            margin-bottom: 10px;
-            padding-left: 10px;
-            border-left: 4px solid var(--theme);
-        }
-
-        .card-list {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 15px;
-        }
-
-        .card {
-            background: var(--card);
-            border: 1px solid var(--border);
-            border-radius: 10px;
-            padding: 15px;
-            transition: 0.2s;
-        }
-
-        .card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-        }
-
-        .card h3 {
-            font-size: 16px;
-            margin-bottom: 8px;
-            color: var(--theme);
-        }
-
-        .card p {
-            font-size: 14px;
-            color: var(--text);
-            opacity: 0.85;
-            margin-bottom: 10px;
-            line-height: 1.5;
-        }
-
-        .card a {
-            font-size: 14px;
-            color: var(--theme);
-            text-decoration: none;
-        }
-
-        .card a:hover {
-            text-decoration: underline;
-        }
-    </style>
+    .section {
+      margin-bottom: 35px;
+    }
+    .section h3 {
+      font-size: 18px;
+      margin-bottom: 12px;
+      padding-left: 10px;
+      border-left: 4px solid var(--theme);
+    }
+    .card-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 15px;
+    }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 16px;
+      transition: 0.2s;
+    }
+    .card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    .card h4 {
+      font-size: 16px;
+      margin-bottom: 8px;
+      color: var(--theme);
+    }
+    .card p {
+      font-size: 14px;
+      line-height: 1.5;
+      opacity: 0.9;
+      margin-bottom: 10px;
+    }
+    .card a {
+      font-size: 14px;
+      color: var(--theme);
+      text-decoration: none;
+    }
+    .card a:hover {
+      text-decoration: underline;
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <div class="title">📚 我的个人资料库</div>
-            <button class="theme-btn" id="themeBtn">暗黑模式</button>
-        </header>
 
-        <input type="text" class="search-box" id="search" placeholder="🔍 搜索资料名称/内容...">
-
-        <!-- 学习资料 -->
-        <div class="category">
-            <div class="cat-title">📘 学习资料</div>
-            <div class="card-list">
-                <div class="card">
-                    <h3>HTML 基础教程</h3>
-                    <p>网页结构基础，标签、属性、表单、语义化等完整笔记</p>
-                    <a href="#">查看详情</a>
-                </div>
-                <div class="card">
-                    <h3>JavaScript 入门</h3>
-                    <p>变量、函数、DOM操作、异步、ES6+ 核心知识点整理</p>
-                    <a href="#">查看详情</a>
-                </div>
-            </div>
-        </div>
-
-        <!-- 工具资源 -->
-        <div class="category">
-            <div class="cat-title">🔧 工具资源</div>
-            <div class="card-list">
-                <div class="card">
-                    <h3>常用图标网站</h3>
-                    <p>免费矢量图标、SVG、PNG 素材网站合集</p>
-                    <a href="https://www.iconfont.cn/" target="_blank">https://www.iconfont.cn/</a>
-                </div>
-                <div class="card">
-                    <h3>在线工具大全</h3>
-                    <p>JSON格式化、图片压缩、编码转换、时间戳转换</p>
-                    <a href="https://www.baidu.com/s?ie=utf-8&wd=在线工具大全" target="_blank">收藏链接</a>
-                </div>
-            </div>
-        </div>
-
-        <!-- 工作笔记 -->
-        <div class="category">
-            <div class="cat-title">📝 工作笔记</div>
-            <div class="card-list">
-                <div class="card">
-                    <h3>项目部署流程</h3>
-                    <p>GitHub Pages 部署、域名绑定、HTTPS 配置步骤</p>
-                    <a href="#">打开笔记</a>
-                </div>
-            </div>
-        </div>
-    </div>
-<!-- 电影网站-->
-    <div class="category">
-    <div class="cat-title">🔧 工具资源</div>
-    <div class="card-list">
-        <div class="card">
-            <h3>常用图标网站</h3>
-            <p>免费矢量图标、SVG、PNG 素材网站合集</p>
-            <a href="https://www.iconfont.cn/" target="_blank">https://www.iconfont.cn/</a>
-        </div>
-        <div class="card">
-            <h3>在线工具大全</h3>
-            <p>JSON格式化、图片压缩、编码转换、时间戳转换</p>
-            <a href="https://tool.oschina.net/" target="_blank">收藏链接</a>
-        </div>
-        <!-- 新增的电影卡片 -->
-        <div class="card">
-            <h3>电影收藏站</h3>
-            <p>经典高分电影列表，方便自己回顾</p>
-            <a href="https://movie.douban.com/" target="_blank">去看电影</a>
-        </div>
-    </div>
+<!-- 只在这里输一次密码 -->
+<div class="login" id="loginBox">
+  <h2>🔒 私人资料库</h2>
+  <p>输入密码即可查看全部内容</p>
+  <input type="password" id="pwd" placeholder="请输入密码">
+  <button id="loginBtn">进入资料库</button>
+  <div class="tip" id="errTip">密码错误</div>
 </div>
 
+<!-- 主页 - 解锁后显示 -->
+<div class="container" id="mainBox">
+  <div class="header">
+    <h1>📚 我的全能资料库</h1>
+    <button class="darkBtn" id="darkBtn">暗黑模式</button>
+  </div>
 
-    <script>
-        // 暗黑模式切换
-        const themeBtn = document.getElementById('themeBtn');
-        themeBtn.addEventListener('click', () => {
-            document.body.classList.toggle('dark');
-            themeBtn.textContent = document.body.classList.contains('dark') ? '浅色模式' : '暗黑模式';
-        });
+  <input class="search" id="search" placeholder="🔍 搜索资料、链接、笔记...">
 
-        // 搜索功能
-        const search = document.getElementById('search');
-        const cards = document.querySelectorAll('.card');
-        search.addEventListener('input', (e) => {
-            const key = e.target.value.toLowerCase();
-            cards.forEach(card => {
-                const text = card.textContent.toLowerCase();
-                card.style.display = text.includes(key) ? 'block' : 'none';
-            });
-        });
-    </script>
+  <!-- 学习资料 -->
+  <div class="section">
+    <h3>📘 学习资料</h3>
+    <div class="card-list">
+      <div class="card">
+        <h4>HTML 笔记</h4>
+        <p>常用标签、表单、布局、语义化</p>
+        <a href="#" target="_blank">查看</a>
+      </div>
+      <div class="card">
+        <h4>CSS 布局</h4>
+        <p>Flex、Grid、响应式、居中技巧</p>
+        <a href="#" target="_blank">查看</a>
+      </div>
+      <div class="card">
+        <h4>JavaScript 基础</h4>
+        <p>变量、函数、数组、DOM、异步</p>
+        <a href="#" target="_blank">查看</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- 工具资源 -->
+  <div class="section">
+    <h3>🔧 工具资源</h3>
+    <div class="card-list">
+      <div class="card">
+        <h4>图标网站</h4>
+        <p>Iconfont、SVG、免费图标素材</p>
+        <a href="https://www.iconfont.cn/" target="_blank">打开</a>
+      </div>
+      <div class="card">
+        <h4>在线工具</h4>
+        <p>JSON、压缩、编码、正则、时间戳</p>
+        <a href="#" target="_blank">打开</a>
+      </div>
+      <div class="card">
+        <h4>设计工具</h4>
+        <p>Figma、Canva、稿定、美图</p>
+        <a href="#" target="_blank">打开</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- 文档模板 -->
+  <div class="section">
+    <h3>📁 文档模板</h3>
+    <div class="card-list">
+      <div class="card">
+        <h4>工作总结</h4>
+        <p>周/月/年度总结通用模板</p>
+        <a href="#" target="_blank">使用</a>
+      </div>
+      <div class="card">
+        <h4>计划书</h4>
+        <p>学习计划、项目计划模板</p>
+        <a href="#" target="_blank">查看</a>
+      </div>
+      <div class="card">
+        <h4>简历模板</h4>
+        <p>简洁通用版、技术岗位版</p>
+        <a href="#" target="_blank">查看</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- 代码片段 -->
+  <div class="section">
+    <h3>💻 代码片段</h3>
+    <div class="card-list">
+      <div class="card">
+        <h4>JS 工具函数</h4>
+        <p>防抖、节流、拷贝、时间格式化</p>
+        <a href="#" target="_blank">复制</a>
+      </div>
+      <div class="card">
+        <h4>Python 脚本</h4>
+        <p>文件处理、爬虫、数据处理</p>
+        <a href="#" target="_blank">查看</a>
+      </div>
+      <div class="card">
+        <h4>Git 命令</h4>
+        <p>提交、分支、回滚、同步</p>
+        <a href="#" target="_blank">查看</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- 电子书 -->
+  <div class="section">
+    <h3>📚 电子书资料</h3>
+    <div class="card-list">
+      <div class="card">
+        <h4>前端入门电子书</h4>
+        <p>HTML+CSS+JS 入门到实战</p>
+        <a href="#" target="_blank">查看</a>
+      </div>
+      <div class="card">
+        <h4>编程学习路线</h4>
+        <p>前端、Python、Java 路线图</p>
+        <a href="#" target="_blank">查看</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- 常用链接 -->
+  <div class="section">
+    <h3>🔗 常用网站</h3>
+    <div class="card-list">
+      <div class="card">
+        <h4>GitHub</h4>
+        <p>代码仓库、开源项目</p>
+        <a href="https://github.com" target="_blank">打开</a>
+      </div>
+      <div class="card">
+        <h4>B站</h4>
+        <p>学习视频、教程课程</p>
+        <a href="https://www.bilibili.com" target="_blank">打开</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- 备忘录 -->
+  <div class="section">
+    <h3>📌 备忘录</h3>
+    <div class="card-list">
+      <div class="card">
+        <h4>待办事项</h4>
+        <p>整理笔记、更新网站、学习</p>
+        <a href="#" target="_blank">编辑</a>
+      </div>
+      <div class="card">
+        <h4>临时笔记</h4>
+        <p>随手记录想法、链接</p>
+        <a href="#" target="_blank">查看</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // ===== 改密码只改这里 =====
+  const PASSWORD = "123456";
+  // =========================
+
+  const loginBox = document.getElementById("loginBox");
+  const mainBox = document.getElementById("mainBox");
+  const pwd = document.getElementById("pwd");
+  const loginBtn = document.getElementById("loginBtn");
+  const errTip = document.getElementById("errTip");
+  const darkBtn = document.getElementById("darkBtn");
+  const search = document.getElementById("search");
+  const cards = document.querySelectorAll(".card");
+
+  // 登录一次就解锁全部
+  loginBtn.onclick = function () {
+    if (pwd.value === PASSWORD) {
+      loginBox.style.display = "none";
+      mainBox.style.display = "block";
+    } else {
+      errTip.style.display = "block";
+      pwd.value = "";
+    }
+  };
+  pwd.addEventListener("keydown", e => {
+    if (e.key === "Enter") loginBtn.click();
+  });
+
+  // 暗黑模式
+  darkBtn.onclick = function () {
+    document.body.classList.toggle("dark");
+    darkBtn.textContent = document.body.classList.contains("dark") ? "浅色模式" : "暗黑模式";
+  };
+
+  // 搜索
+  search.addEventListener("input", function () {
+    const key = search.value.toLowerCase();
+    cards.forEach(card => {
+      card.style.display = card.textContent.toLowerCase().includes(key) ? "block" : "none";
+    });
+  });
+</script>
 </body>
 </html>
